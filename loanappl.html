@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickFunds - Loan Application</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    
+    body {
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 10%;
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    
+    /* Country Selection */
+    .country-selection {
+      padding: 80px 10%;
+      text-align: center;
+    }
+    
+    .country-selection h1 {
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    
+    .country-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .country-card {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .country-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .country-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+    
+    /* Auth Forms */
+    .auth-form {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .auth-form h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    .submit-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+    
+    .submit-btn:hover {
+      background-color: #45a049;
+    }
+    
+    .toggle-form {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .toggle-form a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+    
+    .forgot-password {
+      text-align: right;
+      margin-top: -15px;
+      margin-bottom: 20px;
+    }
+    
+    /* Loan Calculator */
+    .loan-calculator {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .loan-calculator h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    
+    /* Loan Application Form */
+    .loan-form {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .loan-form h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+    
+    .calculation-results {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
+    .calculation-results p {
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    
+    /* Approval Message */
+    .approval-message {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    
+    .approval-message h2 {
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+    
+    .whatsapp-btn {
+      background-color: #25D366;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 5px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+    }
+    
+    /* WhatsApp Float */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s;
+    }
+    
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Hide sections by default */
+    .section {
+      display: none;
+    }
+    
+    .active {
+      display: block;
+    }
+    
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">QuickFunds</div>
+  </nav>
+
+  <!-- Country Selection -->
+  <div id="country-selection" class="section active">
+    <div class="country-selection">
+      <h1>Select Your Country</h1>
+      <p>Loans are currently available in these countries:</p>
+      <div class="country-grid">
+        <div class="country-card" onclick="selectCountry('Kenya')">
+          <img src="https://flagcdn.com/w320/ke.png" alt="Kenya">
+          <h3>Kenya</h3>
+        </div>
+        <div class="country-card" onclick="selectCountry('Zambia')">
+          <img src="https://flagcdn.com/w320/zm.png" alt="Zambia">
+          <h3>Zambia</h3>
+        </div>
+        <div class="country-card" onclick="selectCountry('South Africa')">
+          <img src="https://flagcdn.com/w320/za.png" alt="South Africa">
+          <h3>South Africa</h3>
+        </div>
+        <div class="country-card" onclick="selectCountry('Tanzania')">
+          <img src="https://flagcdn.com/w320/tz.png" alt="Tanzania">
+          <h3>Tanzania</h3>
+        </div>
+        <div class="country-card" onclick="selectCountry('Namibia')">
+          <img src="https://flagcdn.com/w320/na.png" alt="Namibia">
+          <h3>Namibia</h3>
+        </div>
+        <div class="country-card" onclick="selectCountry('Morocco')">
+          <img src="https://flagcdn.com/w320/ma.png" alt="Morocco">
+          <h3>Morocco</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Form -->
+  <div id="login-form" class="section">
+    <div class="auth-form">
+      <h2>Login to Your Account</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required>
+        </div>
+        <div class="forgot-password">
+          <a href="#" onclick="showSection('forgot-password')">Forgot Password?</a>
+        </div>
+        <button type="submit" class="submit-btn">Login</button>
+      </form method="post " action="register.php"> 
+      <div class="toggle-form">
+        Don't have an account? <a href="#" onclick="showSection('signup-form')">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Forgot Password Form -->
+  <div id="forgot-password" class="section">
+    <div class="auth-form">
+      <h2>Reset Password</h2>
+      <form id="forgotPasswordForm">
+        <div class="form-group">
+          <label for="reset-email">Email</label>
+          <input type="email" id="reset-email" required>
+        </div>
+        <button type="submit" class="submit-btn">Send Reset Link</button>
+      </form>
+      <div class="toggle-form">
+        Remember your password? <a href="#" onclick="showSection('login-form')">Login</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Signup Form -->
+  <div id="signup-form" class="section">
+    <div class="auth-form">
+      <h2>Create an Account</h2>
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="signup-name">Full Name (At least 2 names)</label>
+          <input type="text" id="signup-name" required>
+          <div id="name-error" class="error"></div>
+          <form method="post " action="register.php">
+        </div>
+        <div class="form-group">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" required>
+        </div>
+        <button type="submit" class="submit-btn">Sign Up</button>
+      </form method="post " action="register.php"> 
+      <div class="toggle-form">
+        Already have an account? <a href="#" onclick="showSection('login-form')">Login</a>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Loan Calculator and Application -->
+  <div id="loan-application-section" class="section">
+    <!-- Loan Calculator -->
+    <div class="loan-calculator">
+      <h2>Loan Calculator</h2>
+      <div class="form-group">
+        <label for="calc-amount">Loan Amount (Kwacha)</label>
+        <input type="number" id="calc-amount" min="2000" max="250000" value="2000">
+        <div id="calc-amount-error" class="error"></div>
+      </div>
+      <div class="form-group">
+        <label for="calc-period">Payment Period (Years)</label>
+        <select id="calc-period">
+          <option value="1">1 Year</option>
+          <option value="2">2 Years</option>
+          <option value="3">3 Years</option>
+          <option value="5">5 Years</option>
+        </select>
+      </div>
+      <div class="calculation-results">
+        <p>Loan Details:</p>
+        <p id="calc-collateral">Collateral Required: 400 Kwacha</p>
+        <p id="calc-interest">Total Interest: 300 Kwacha</p>
+        <p id="calc-total">Total Repayment: 2,300 Kwacha</p>
+        <p id="calc-monthly">Annual Payment: 2,300 Kwacha</p>
+      </div>
+    </div>
+
+    <!-- Loan Application Form -->
+    <div class="loan-form">
+      <h2>Loan Application</h2>
+      <form id="loanApplicationForm">
+        <div class="form-group">
+          <label for="applicant-name">Full Name</label>
+          <input type="text" id="applicant-name" required>
+        </div>
+        <div class="form-group">
+          <label for="applicant-email">Email</label>
+          <input type="email" id="applicant-email" required>
+        </div>
+        <div class="form-group">
+          <label for="applicant-phone">Phone Number</label>
+          <input type="tel" id="applicant-phone" required>
+        </div>
+        <div class="form-group">
+          <label for="national-id">National ID Number</label>
+          <input type="text" id="national-id" required>
+        </div>
+        <div class="form-group">
+          <label for="applicant-city">City/State</label>
+          <input type="text" id="applicant-city" required>
+        </div>
+        
+        <!-- Next of Kin Information -->
+        <div class="form-group">
+          <label for="nextofkin-name">Next of Kin Full Name</label>
+          <input type="text" id="nextofkin-name" required>
+        </div>
+        <div class="form-group">
+          <label for="nextofkin-phone">Next of Kin Phone Number</label>
+          <input type="tel" id="nextofkin-phone" required>
+        </div>
+        <div class="form-group">
+          <label for="nextofkin-relation">Relationship to Next of Kin</label>
+          <input type="text" id="nextofkin-relation" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="loan-amount">Loan Amount (Kwacha)</label>
+          <input type="number" id="loan-amount" min="2000" max="250000" required>
+          <div id="amount-error" class="error"></div>
+        </div>
+        <div class="form-group">
+          <label for="annual-income">Annual Income (Kwacha)</label>
+          <input type="number" id="annual-income" required>
+        </div>
+        <div class="form-group">
+          <label for="loan-purpose">Loan Purpose</label>
+          <select id="loan-purpose" required>
+            <option value="">Select Purpose</option>
+            <option value="personal">Personal</option>
+            <option value="business">Business</option>
+            <option value="education">Education</option>
+            <option value="emergency">Emergency</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="payment-period">Payment Period (Years)</label>
+          <select id="payment-period" required>
+            <option value="">Select based on loan amount</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="airtel-number">Airtel Money Number</label>
+          <input type="text" id="airtel-number" placeholder="e.g., 0971234567" required>
+        </div>
+        
+        <!-- Calculation Results -->
+        <div class="calculation-results">
+          <p>Loan Details:</p>
+          <p id="collateral-amount">Collateral Required: 0 Kwacha</p>
+          <p id="interest-amount">Total Interest: 0 Kwacha</p>
+          <p id="total-repayment">Total Repayment: 0 Kwacha</p>
+          <p id="monthly-payment">Annual Payment: 0 Kwacha</p>
+        </div>
+        
+        <button type="submit" class="submit-btn">Apply Now</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Approval Message -->
+  <div id="approval-message" class="section">
+    <div class="approval-message">
+      <h2>Application Received!</h2>
+      <p>Your loan application has been submitted successfully.</p>
+      <p>Please reach out to our customer service team to complete the loan processing:</p>
+      <a href="https://wa.me/+254724937147" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i> Contact Customer Service
+      </a>
+    </div>
+  </div>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/+254724937147" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    // Country selection
+    function selectCountry(country) {
+      localStorage.setItem('selectedCountry', country);
+      showSection('login-form');
+    }
+
+    // Show/hide sections
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+      
+      if (sectionId === 'loan-application-section') {
+        calculateLoanDetails('calc');
+        calculateLoanDetails();
+      }
+    }
+
+    // Form validations
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      if (name.split(' ').length < 2) {
+        document.getElementById('name-error').textContent = 'Please enter at least 2 names';
+        return;
+      }
+      showSection('loan-application-section');
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      showSection('loan-application-section');
+    });
+
+    document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Password reset link sent to your email');
+      showSection('login-form');
+    });
+
+    // Calculator amount validation
+    document.getElementById('calc-amount').addEventListener('input', function() {
+      const amount = parseFloat(this.value);
+      const errorElement = document.getElementById('calc-amount-error');
+      
+      if (amount < 2000) {
+        errorElement.textContent = 'Minimum loan amount is 2,000 Kwacha';
+      } else if (amount > 250000) {
+        errorElement.textContent = 'Maximum loan amount is 250,000 Kwacha';
+      } else {
+        errorElement.textContent = '';
+        updatePeriodOptions(amount, 'calc-period');
+      }
+      calculateLoanDetails('calc');
+    });
+
+    // Application amount validation
+    document.getElementById('loan-amount').addEventListener('input', function() {
+      const amount = parseFloat(this.value);
+      const errorElement = document.getElementById('amount-error');
+      
+      if (amount < 2000) {
+        errorElement.textContent = 'Minimum loan amount is 2,000 Kwacha';
+      } else if (amount > 250000) {
+        errorElement.textContent = 'Maximum loan amount is 250,000 Kwacha';
+      } else {
+        errorElement.textContent = '';
+        updatePeriodOptions(amount, 'payment-period');
+      }
+      calculateLoanDetails();
+    });
+
+    // Calculator period change
+    document.getElementById('calc-period').addEventListener('change', function() {
+      calculateLoanDetails('calc');
+    });
+
+    // Application period change
+    document.getElementById('payment-period').addEventListener('change', calculateLoanDetails);
+
+    function updatePeriodOptions(amount, elementId) {
+      const periodSelect = document.getElementById(elementId);
+      periodSelect.innerHTML = '<option value="">Select based on loan amount</option>';
+      
+      if (amount <= 50000) {
+        periodSelect.innerHTML += '<option value="1">1 Year</option>';
+        periodSelect.innerHTML += '<option value="2">2 Years</option>';
+      } else {
+        periodSelect.innerHTML += '<option value="3">3 Years</option>';
+        periodSelect.innerHTML += '<option value="4">4 Years</option>';
+        periodSelect.innerHTML += '<option value="5">5 Years</option>';
+      }
+    }
+
+    function calculateLoanDetails(prefix = '') {
+      const loanAmount = parseFloat(document.getElementById((prefix ? prefix + '-' : '') + 'amount').value) || 0;
+      const years = parseInt(document.getElementById((prefix ? prefix + '-' : '') + 'period').value) || 0;
+      
+      // Calculations
+      const collateral = loanAmount * 0.2; // 20% collateral
+      const interestRate = 0.15; // 15% interest
+      const totalInterest = loanAmount * interestRate * years;
+      const totalRepayment = loanAmount + totalInterest;
+      const annualPayment = totalRepayment / years;
+      
+      // Update display
+      document.getElementById((prefix ? prefix + '-' : '') + 'collateral').textContent = `Collateral Required: ${collateral.toLocaleString()} Kwacha`;
+      document.getElementById((prefix ? prefix + '-' : '') + 'interest').textContent = `Total Interest: ${totalInterest.toLocaleString()} Kwacha`;
+      document.getElementById((prefix ? prefix + '-' : '') + 'total').textContent = `Total Repayment: ${totalRepayment.toLocaleString()} Kwacha`;
+      document.getElementById((prefix ? prefix + '-' : '') + 'monthly').textContent = `Annual Payment: ${annualPayment.toLocaleString()} Kwacha`;
+    }
+
+    // Form submission
+    document.getElementById('loanApplicationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const loanAmount = parseFloat(document.getElementById('loan-amount').value);
+      if (loanAmount < 2000 || loanAmount > 250000) {
+        document.getElementById('amount-error').textContent = 'Loan amount must be between 2,000 and 250,000 Kwacha';
+        return;
+      }
+      showSection('approval-message');
+    });
+
+    // Initialize calculator
+    window.onload = function() {
+      calculateLoanDetails('calc');
+    };
+  </script>
+
+  <div>
+  <div>
+  <script src="script.js"></script>
+</body>
+</html>
